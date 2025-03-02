@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Automatico</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+        }
+        #playButton {
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <audio id="audio" autoplay>
+        <source src="audio.mp3" type="audio/mpeg">
+        Il tuo browser non supporta l'elemento audio.
+    </audio>
+
+    <button id="playButton">Avvia Audio</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const audio = document.getElementById("audio");
+            const playButton = document.getElementById("playButton");
+
+            audio.play().catch(error => {
+                console.log("Riproduzione bloccata, serve un'interazione utente.");
+                playButton.style.display = "block";
+            });
+
+            playButton.addEventListener("click", function() {
+                audio.play();
+                playButton.style.display = "none";
+            });
+        });
+    </script>
+</body>
+</html>
+
