@@ -5,116 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Automatico</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: black;
+            margin: 0;
             overflow: hidden;
-        }
-        #playButton {
-            position: absolute;
-            width: 100vw;
             height: 100vh;
             background-color: black;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 50px;
-            text-align: center;
-            transition: transform 1s ease-out, font-size 1s ease-out;
         }
-        #stopButton {
+
+        #audio {
             display: none;
+        }
+
+        #stopButton {
             position: absolute;
-            width: 100vw;
-            height: 100vh;
-            background-color: red;
+            background-color: transparent;
             color: white;
-            font-size: 50px;
-            border: none;
+            font-size: 40px;
+            padding: 20px 40px;
+            border: 3px solid white;
+            border-radius: 50px;
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 1s ease;
+            display: none;
+            transition: all 0.5s ease-in-out;
+        }
+
+        @keyframes rainbow {
+            0% { color: red; }
+            14% { color: orange; }
+            28% { color: yellow; }
+            42% { color: green; }
+            57% { color: blue; }
+            71% { color: indigo; }
+            85% { color: violet; }
+            100% { color: red; }
+        }
+
+        #stopButton:hover {
+            animation: rainbow 1.5s linear infinite;
         }
     </style>
 </head>
 <body>
-
-    <audio id="audio" loop>
+    <audio id="audio" autoplay loop>
         <source src="audio.mp3" type="audio/mpeg">
         Il tuo browser non supporta l'elemento audio.
     </audio>
 
-    <button id="playButton"></button>
     <button id="stopButton">Stop</button>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const audio = document.getElementById("audio");
-            const playButton = document.getElementById("playButton");
             const stopButton = document.getElementById("stopButton");
-            let buttonSize = 150; // Dimensione iniziale del pulsante
-            let textSize = 50; // Dimensione iniziale del testo
-            let scaleFactor = 0.95; // Fattore di riduzione del pulsante
 
-            // Quando si clicca "playButton", l'audio inizia e "stopButton" appare
-            playButton.addEventListener("click", function() {
-                audio.volume = 1; // Imposta il volume al massimo (1 = volume massimo)
-                audio.play();
-                playButton.style.display = "none"; // Nasconde il pulsante di play
-                stopButton.style.display = "flex"; // Mostra il pulsante di stop
+            // Funzione per far partire l'audio e mostrare il pulsante
+            document.body.addEventListener("click", function() {
+                audio.play().catch(error => {
+                    console.log("Riproduzione bloccata, serve un'interazione utente.");
+                });
+
+                stopButton.style.display = "block";
+
+                // Effetto per far comparire il pulsante in una posizione random
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                const randomX = Math.random() * (screenWidth - 150);
+                const randomY = Math.random() * (screenHeight - 50);
+
+                stopButton.style.left = randomX + "px";
+                stopButton.style.top = randomY + "px";
             });
 
-            // Funzione per ridurre la dimensione del pulsante e spostarlo
-            function shrinkButton() {
-                if (buttonSize > 50) {
-                    buttonSize *= scaleFactor; // Riduce la dimensione del pulsante
-                    textSize *= scaleFactor; // Riduce la dimensione del testo
-
-                    stopButton.style.width = `${buttonSize}px`;
-                    stopButton.style.height = `${buttonSize}px`;
-                    stopButton.style.fontSize = `${textSize}px`;
-
-                    // Cambia il colore del pulsante
-                    const randomColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                    stopButton.style.backgroundColor = randomColor;
-
-                    // Sposta il pulsante in una posizione casuale
-                    const screenWidth = window.innerWidth;
-                    const screenHeight = window.innerHeight;
-                    const newX = Math.random() * (screenWidth - buttonSize);
-                    const newY = Math.random() * (screenHeight - buttonSize);
-
-                    stopButton.style.transform = `translate(${newX}px, ${newY}px) scale(1.1)`; // Effetto di rimbalzo (scale)
-                    
-                    setTimeout(() => {
-                        stopButton.style.transform = `translate(${newX}px, ${newY}px) scale(1)`; // Rimbalza al valore normale
-                    }, 100); // Il tempo di attesa per rimanere nella posizione
-
-                    stopButton.style.left = `${newX}px`;
-                    stopButton.style.top = `${newY}px`;
-                }
-            }
-
-            // Quando si clicca "Stop", il pulsante si sposterà e ridurrà la dimensione
+            // Funzione per il clic sul pulsante
             stopButton.addEventListener("click", function() {
-                shrinkButton(); // Riduce la dimensione e si sposta
+                // Anima il pulsante per ridursi e cambiare posizione
+                stopButton.style.transition = "all 1s ease-in-out";
+                stopButton.style.transform = "scale(0.3)";
+                stopButton.style.opacity = "0";
+
+                // Nascondi il pulsante dopo l'animazione
+                setTimeout(() => {
+                    stopButton.style.display = "none";
+                }, 1000);
             });
         });
     </script>
-
 </body>
 </html>
 
