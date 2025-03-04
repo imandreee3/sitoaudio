@@ -32,7 +32,7 @@
             color: white;
             font-size: 50px;
             text-align: center;
-            transition: transform 0.5s ease-out;
+            transition: transform 1s ease-out, font-size 1s ease-out;
         }
         #stopButton {
             display: none;
@@ -48,7 +48,7 @@
         Il tuo browser non supporta l'elemento audio.
     </audio>
 
-    <button id="startButton">Sto Audio</button>
+    <button id="startButton"></button>
     <button id="stopButton">Stop</button>
 
     <script>
@@ -56,8 +56,10 @@
             const audio = document.getElementById("audio");
             const startButton = document.getElementById("startButton");
             const stopButton = document.getElementById("stopButton");
-            let buttonSize = 150; // Dimensione iniziale del pulsante "Stop"
+            let buttonSize = 150; // Dimensione iniziale del pulsante
             let textSize = 50; // Dimensione iniziale del testo
+            let moveSpeed = 1; // Velocità di movimento del pulsante
+            let scaleFactor = 0.95; // Fattore di riduzione del pulsante
 
             // Alza il volume al massimo quando si clicca il pulsante "Sto Audio"
             startButton.addEventListener("click", function() {
@@ -65,14 +67,15 @@
                 audio.play();
                 startButton.style.display = "none";
                 stopButton.style.display = "flex";
+                stopButton.textContent = "Sto Audio"; // Aggiungi il testo dopo il primo clic
             });
 
             // Funzione per ridurre la dimensione del pulsante e cambiare il testo
             function shrinkButton() {
-                // Riduci la dimensione del pulsante e del testo
-                if (buttonSize > 30) {
-                    buttonSize = buttonSize * 0.9; // Riduce la dimensione del pulsante
-                    textSize = textSize * 0.8; // Riduce la dimensione del testo di più
+                // Ridurre la dimensione lentamente nel tempo
+                if (buttonSize > 50) {
+                    buttonSize = buttonSize * scaleFactor; // Riduce la dimensione del pulsante
+                    textSize = textSize * scaleFactor; // Riduce la dimensione del testo di più
 
                     stopButton.style.width = `${buttonSize}px`;
                     stopButton.style.height = `${buttonSize}px`;
