@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Automatico</title>
+    <title>:33</title>
     <style>
         * {
             margin: 0;
@@ -95,28 +95,15 @@
 
                     stopButton.style.left = `${newX}px`;
                     stopButton.style.top = `${newY}px`;
-                }
-            }
-
-            // Funzione per cambiare il testo
-            function changeText() {
-                if (stopButton.textContent === "Stop Audio") {
-                    stopButton.textContent = "Sto Audio";
-                } else {
-                    stopButton.textContent = "Stop Audio";
-                }
-            }
+                
 
             // Movimento e cambio di dimensione ogni secondo
             setInterval(() => {
                 shrinkButton(); // Riduci dimensione e sposta con effetto di rimbalzo
-                changeText(); // Cambia il testo
-            }, 1000);
 
             // Quando si clicca "Stop Audio", il pulsante si sposta, diventa più piccolo, e cambia colore
             stopButton.addEventListener("click", function() {
                 shrinkButton(); // Esegui la riduzione e lo spostamento con rimbalzo
-                changeText(); // Cambia il testo ogni volta che viene cliccato
             });
         });
     </script>
