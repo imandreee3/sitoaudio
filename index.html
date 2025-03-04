@@ -25,6 +25,42 @@
             border-radius: 50px;
             cursor: pointer;
             display: none; /* Inizialmente nascosto */
+            transition: all 2s ease; /* Transizione per il rimpicciolimento */
+            animation: rainbow 5s linear infinite; /* Animazione arcobaleno */
+        }
+
+        /* Animazione arcobaleno */
+        @keyframes rainbow {
+            0% {
+                background-color: red;
+            }
+            14% {
+                background-color: orange;
+            }
+            28% {
+                background-color: yellow;
+            }
+            42% {
+                background-color: green;
+            }
+            57% {
+                background-color: blue;
+            }
+            71% {
+                background-color: indigo;
+            }
+            85% {
+                background-color: violet;
+            }
+            100% {
+                background-color: red;
+            }
+        }
+
+        /* Quando il pulsante è cliccato, lo rimpiccioliamo */
+        #playButton.clicked {
+            transform: scale(0.5);
+            font-size: 15px;
         }
     </style>
 </head>
@@ -46,10 +82,10 @@
                     console.log("Riproduzione bloccata, serve un'interazione utente.");
                 });
 
-                // Crea il pulsante rosso
+                // Crea il pulsante "Stop"
                 const playButton = document.createElement("button");
                 playButton.id = "playButton";
-                playButton.innerText = "Cliccami!";
+                playButton.innerText = "Stop"; // Testo del pulsante
                 body.appendChild(playButton);
 
                 // Mostra il pulsante rosso
@@ -69,6 +105,11 @@
 
                 // Muovi il pulsante ogni 1 secondo
                 setInterval(moveButton, 1000);
+
+                // Aggiungi l'effetto di rimpicciolimento quando viene cliccato
+                playButton.addEventListener("click", function() {
+                    playButton.classList.add("clicked"); // Aggiungi la classe per il rimpicciolimento
+                });
             });
         });
     </script>
