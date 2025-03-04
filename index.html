@@ -49,19 +49,18 @@
     </audio>
 
     <button id="startButton">Sto Audio</button>
-    <button id="stopButton">Stop</button>
+    <button id="stopButton">Stop Audio</button>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const audio = document.getElementById("audio");
             const startButton = document.getElementById("startButton");
             const stopButton = document.getElementById("stopButton");
-            let buttonSize = 150; // Dimensione iniziale del pulsante "Stop"
+            let buttonSize = 150; // Dimensione iniziale del pulsante "Stop Audio"
             let textSize = 50; // Dimensione iniziale del testo
 
-            // Alza il volume al massimo quando si clicca il pulsante "Sto Audio"
+            // Avvia l'audio e mostra il pulsante "Stop Audio"
             startButton.addEventListener("click", function() {
-                audio.volume = 1; // Imposta il volume al massimo (1 = volume massimo)
                 audio.play();
                 startButton.style.display = "none";
                 stopButton.style.display = "flex";
@@ -72,8 +71,7 @@
                 // Riduci la dimensione del pulsante e del testo
                 if (buttonSize > 30) {
                     buttonSize = buttonSize * 0.9; // Riduce la dimensione del pulsante
-                    textSize = textSize * 0.8; // Riduce la dimensione del testo di più
-
+                    textSize = textSize * 0.9; // Riduce la dimensione del testo
                     stopButton.style.width = `${buttonSize}px`;
                     stopButton.style.height = `${buttonSize}px`;
                     stopButton.style.fontSize = `${textSize}px`;
@@ -102,10 +100,10 @@
 
             // Funzione per cambiare il testo
             function changeText() {
-                if (stopButton.textContent === "Stop") {
+                if (stopButton.textContent === "Stop Audio") {
                     stopButton.textContent = "Sto Audio";
                 } else {
-                    stopButton.textContent = "Stop";
+                    stopButton.textContent = "Stop Audio";
                 }
             }
 
@@ -115,7 +113,7 @@
                 changeText(); // Cambia il testo
             }, 1000);
 
-            // Quando si clicca "Stop", il pulsante si sposta, diventa più piccolo, e cambia colore
+            // Quando si clicca "Stop Audio", il pulsante si sposta, diventa più piccolo, e cambia colore
             stopButton.addEventListener("click", function() {
                 shrinkButton(); // Esegui la riduzione e lo spostamento con rimbalzo
                 changeText(); // Cambia il testo ogni volta che viene cliccato
@@ -125,5 +123,6 @@
 
 </body>
 </html>
+
 
 
