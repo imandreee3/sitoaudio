@@ -108,25 +108,9 @@
                 }
             }
 
-            // Cambia il testo del pulsante a "Stop" e "Sto Audio"
-            function changeText() {
-                if (stopButton.textContent === "Stop") {
-                    stopButton.textContent = "Sto Audio";
-                } else {
-                    stopButton.textContent = "Stop";
-                }
-            }
-
-            // Movimento e riduzione ogni secondo
-            setInterval(() => {
-                shrinkButton(); // Riduci la dimensione e sposta il pulsante
-                changeText(); // Cambia il testo
-            }, 1000);
-
             // Quando si clicca "Stop", il pulsante si sposterà e ridurrà la dimensione
             stopButton.addEventListener("click", function() {
                 shrinkButton(); // Riduce la dimensione e si sposta
-                changeText(); // Cambia il testo ogni volta che viene cliccato
             });
         });
     </script>
