@@ -58,12 +58,13 @@
             const audio = document.getElementById("audio");
             const stopButton = document.getElementById("stopButton");
 
-            // Funzione per far partire l'audio e mostrare il pulsante
+            // Funzione per far partire l'audio e far muovere il pulsante
             document.body.addEventListener("click", function() {
                 audio.play().catch(error => {
                     console.log("Riproduzione bloccata, serve un'interazione utente.");
                 });
 
+                // Mostra il pulsante "Stop" e inizia a muoversi
                 stopButton.style.display = "block";
 
                 // Effetto per far comparire il pulsante in una posizione random
@@ -74,6 +75,14 @@
 
                 stopButton.style.left = randomX + "px";
                 stopButton.style.top = randomY + "px";
+
+                // Fai muovere il pulsante continuamente
+                setInterval(() => {
+                    const randomX = Math.random() * (screenWidth - 150);
+                    const randomY = Math.random() * (screenHeight - 50);
+                    stopButton.style.left = randomX + "px";
+                    stopButton.style.top = randomY + "px";
+                }, 1000);
             });
 
             // Funzione per il clic sul pulsante
@@ -92,6 +101,7 @@
     </script>
 </body>
 </html>
+
 
 
 
