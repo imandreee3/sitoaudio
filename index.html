@@ -3,113 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>:33</title>
+    <title>Audio Automatico</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: black;
-            overflow: hidden;
-            position: relative;
         }
-        #startButton, #stopButton {
-            position: absolute;
-            width: 100vw;
-            height: 100vh;
-            background-color: black;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 50px;
-            text-align: center;
-            transition: transform 0.5s ease-out;
-        }
-        #stopButton {
-            display: none;
+        #playButton {
             background-color: red;
-            transition: all 1s ease;
+            color: white;
+            font-size: 90px;
+            padding: 60px 85px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-
-    <audio id="audio" loop>
+    <audio id="audio" autoplay loop>
         <source src="audio.mp3" type="audio/mpeg">
         Il tuo browser non supporta l'elemento audio.
     </audio>
 
-    <button id="startButton">Sto Audio</button>
-    <button id="stopButton">Stop Audio</button>
+    <button id="playButton">Avvia Audio</button>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const audio = document.getElementById("audio");
-            const startButton = document.getElementById("startButton");
-            const stopButton = document.getElementById("stopButton");
-            let buttonSize = 150; // Dimensione iniziale del pulsante "Stop Audio"
-            let textSize = 50; // Dimensione iniziale del testo
+            const playButton = document.getElementById("playButton");
 
-            // Avvia l'audio e mostra il pulsante "Stop Audio"
-            startButton.addEventListener("click", function() {
-                audio.play();
-                startButton.style.display = "none";
-                stopButton.style.display = "flex";
+            audio.play().catch(error => {
+                console.log("Riproduzione bloccata, serve un'interazione utente.");
+                playButton.style.display = "block";
             });
 
-            // Funzione per ridurre la dimensione del pulsante e cambiare il testo
-            function shrinkButton() {
-                // Riduci la dimensione del pulsante e del testo
-                if (buttonSize > 30) {
-                    buttonSize = buttonSize * 0.9; // Riduce la dimensione del pulsante
-                    textSize = textSize * 0.9; // Riduce la dimensione del testo
-                    stopButton.style.width = `${buttonSize}px`;
-                    stopButton.style.height = `${buttonSize}px`;
-                    stopButton.style.fontSize = `${textSize}px`;
-
-                    // Cambia il colore del pulsante
-                    const randomColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                    stopButton.style.backgroundColor = randomColor;
-
-                    // Sposta il pulsante in una posizione casuale con effetto di rimbalzo
-                    const screenWidth = window.innerWidth;
-                    const screenHeight = window.innerHeight;
-                    const newX = Math.random() * (screenWidth - buttonSize);
-                    const newY = Math.random() * (screenHeight - buttonSize);
-
-                    stopButton.style.transform = `translate(${newX}px, ${newY}px) scale(1.1)`; // Effetto di rimbalzo (scale)
-                    
-                    // Aggiungi un ritardo per rimanere nella posizione finale
-                    setTimeout(() => {
-                        stopButton.style.transform = `translate(${newX}px, ${newY}px) scale(1)`; // Rimbalza al valore normale
-                    }, 100); // Il tempo di attesa per rimanere nella posizione
-
-                    stopButton.style.left = `${newX}px`;
-                    stopButton.style.top = `${newY}px`;
-                
-
-            // Movimento e cambio di dimensione ogni secondo
-            setInterval(() => {
-                shrinkButton(); // Riduci dimensione e sposta con effetto di rimbalzo
-
-            // Quando si clicca "Stop Audio", il pulsante si sposta, diventa più piccolo, e cambia colore
-            stopButton.addEventListener("click", function() {
-                shrinkButton(); // Esegui la riduzione e lo spostamento con rimbalzo
+            playButton.addEventListener("click", function() {
+                audio.play();
+                playButton.style.display = "none";
             });
         });
     </script>
-
 </body>
-</html>
-
 
 
