@@ -12,6 +12,19 @@
             height: 100vh;
             background-color: black;
             margin: 0;
+            overflow: hidden; /* Impedisce la barra di scorrimento */
+        }
+        
+        #playButton {
+            position: absolute;
+            background-color: red;
+            color: white;
+            font-size: 30px;
+            padding: 20px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            display: none; /* Inizialmente nascosto */
         }
     </style>
 </head>
@@ -24,15 +37,38 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const audio = document.getElementById("audio");
+            const body = document.body;
 
             // Aggiungi l'ascoltatore per il click sull'intero body per iniziare l'audio
-            document.body.addEventListener("click", function() {
+            body.addEventListener("click", function() {
                 // Riproduci l'audio quando l'utente fa clic
                 audio.play().catch(error => {
                     console.log("Riproduzione bloccata, serve un'interazione utente.");
                 });
-                // Cambia lo sfondo in un altro colore (opzionale)
-                document.body.style.backgroundColor = "#333";
+
+                // Crea il pulsante rosso
+                const playButton = document.createElement("button");
+                playButton.id = "playButton";
+                playButton.innerText = "Cliccami!";
+                body.appendChild(playButton);
+
+                // Mostra il pulsante rosso
+                playButton.style.display = "block";
+
+                // Funzione per muovere il pulsante in modo casuale
+                function moveButton() {
+                    const maxX = window.innerWidth - playButton.offsetWidth;
+                    const maxY = window.innerHeight - playButton.offsetHeight;
+
+                    const randomX = Math.random() * maxX;
+                    const randomY = Math.random() * maxY;
+
+                    playButton.style.left = randomX + "px";
+                    playButton.style.top = randomY + "px";
+                }
+
+                // Muovi il pulsante ogni 1 secondo
+                setInterval(moveButton, 1000);
             });
         });
     </script>
