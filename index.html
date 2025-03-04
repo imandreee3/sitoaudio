@@ -14,7 +14,7 @@
             margin: 0;
             overflow: hidden;
         }
-
+        
         #playButton {
             position: absolute;
             background-color: red;
@@ -24,8 +24,8 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            display: block;
-            transition: all 2s ease; /* Transizione per il rimpicciolimento */
+            display: none; /* Inizialmente nascosto */
+            transition: all 10s ease; /* Transizione per il rimpicciolimento */
             animation: rainbow 5s linear infinite; /* Animazione arcobaleno */
         }
 
@@ -57,15 +57,15 @@
             }
         }
 
-        /* Quando il pulsante è rimpicciolito */
-        #playButton.shrink {
-            transform: scale(0.5);
-            font-size: 15px;
+        /* Quando il pulsante si rimpicciolisce gradualmente */
+        #playButton.clicked {
+            transform: scale(0.5); /* Riduce la dimensione */
+            font-size: 15px; /* Riduce la dimensione del testo */
         }
     </style>
 </head>
 <body>
-    <audio id="audio" autoplay>
+    <audio id="audio">
         <source src="audio.mp3" type="audio/mpeg">
         Il tuo browser non supporta l'elemento audio.
     </audio>
@@ -75,39 +75,45 @@
             const audio = document.getElementById("audio");
             const body = document.body;
 
-            // Crea il pulsante "Stop"
-            const playButton = document.createElement("button");
-            playButton.id = "playButton";
-            playButton.innerText = "Stop"; // Testo del pulsante
-            body.appendChild(playButton);
+            // Aggiungi l'ascoltatore per il click sull'intero body per iniziare l'audio
+            body.addEventListener("click", function() {
+                // Riproduci l'audio quando l'utente fa clic
+                audio.play().catch(error => {
+                    console.log("Riproduzione bloccata, serve un'interazione utente.");
+                });
 
-            // Mostra il pulsante appena la pagina è caricata
-            playButton.style.display = "block";
+                // Crea il pulsante "Stop"
+                const playButton = document.createElement("button");
+                playButton.id = "playButton";
+                playButton.innerText = "Stop"; // Testo del pulsante
+                body.appendChild(playButton);
 
-            // Funzione per muovere il pulsante in modo casuale
-            function moveButton() {
-                const maxX = window.innerWidth - playButton.offsetWidth;
-                const maxY = window.innerHeight - playButton.offsetHeight;
+                // Mostra il pulsante rosso
+                playButton.style.display = "block";
 
-                const randomX = Math.random() * maxX;
-                const randomY = Math.random() * maxY;
+                // Aggiungi l'effetto di rimpicciolimento quando viene cliccato
+                playButton.addEventListener("click", function() {
+                    playButton.classList.add("clicked"); // Aggiungi la classe per il rimpicciolimento
+                });
 
-                playButton.style.left = randomX + "px";
-                playButton.style.top = randomY + "px";
-            }
+                // Funzione per muovere il pulsante in modo casuale
+                function moveButton() {
+                    const maxX = window.innerWidth - playButton.offsetWidth;
+                    const maxY = window.innerHeight - playButton.offsetHeight;
 
-            // Muove il pulsante ogni 1 secondo
-            setInterval(moveButton, 1000);
+                    const randomX = Math.random() * maxX;
+                    const randomY = Math.random() * maxY;
 
-            // Rimpicciolisce gradualmente il pulsante
-            setInterval(function() {
-                playButton.classList.add("shrink");
-            }, 1000); // Il pulsante si rimpicciolisce dopo 1 secondo
+                    playButton.style.left = randomX + "px";
+                    playButton.style.top = randomY + "px";
+                }
 
+                // Muovi il pulsante ogni 1 secondo
+                setInterval(moveButton, 1000);
+            });
         });
     </script>
 </body>
 </html>
-
 
 
