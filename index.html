@@ -14,7 +14,7 @@
             margin: 0;
             overflow: hidden;
         }
-        
+
         #playButton {
             position: absolute;
             background-color: red;
@@ -25,7 +25,7 @@
             border-radius: 50px;
             cursor: pointer;
             display: block;
-            transition: all 2s ease;
+            transition: all 2s ease; /* Transizione per il rimpicciolimento */
             animation: rainbow 5s linear infinite; /* Animazione arcobaleno */
         }
 
@@ -57,15 +57,15 @@
             }
         }
 
-        /* Quando il pulsante è cliccato, si rimpicciolisce */
-        #playButton.clicked {
+        /* Quando il pulsante è rimpicciolito */
+        #playButton.shrink {
             transform: scale(0.5);
             font-size: 15px;
         }
     </style>
 </head>
 <body>
-    <audio id="audio">
+    <audio id="audio" autoplay>
         <source src="audio.mp3" type="audio/mpeg">
         Il tuo browser non supporta l'elemento audio.
     </audio>
@@ -81,31 +81,29 @@
             playButton.innerText = "Stop"; // Testo del pulsante
             body.appendChild(playButton);
 
-            // Aggiungi l'ascoltatore per il click sull'intero body per iniziare l'audio
-            body.addEventListener("click", function() {
-                // Riproduci l'audio quando l'utente fa clic
-                audio.play().catch(error => {
-                    console.log("Riproduzione bloccata, serve un'interazione utente.");
-                });
+            // Mostra il pulsante appena la pagina è caricata
+            playButton.style.display = "block";
 
-                // Quando il pulsante viene cliccato, lo rimpiccioliamo e lo spostiamo
-                playButton.classList.add("clicked"); // Aggiungi la classe per il rimpicciolimento
+            // Funzione per muovere il pulsante in modo casuale
+            function moveButton() {
+                const maxX = window.innerWidth - playButton.offsetWidth;
+                const maxY = window.innerHeight - playButton.offsetHeight;
 
-                // Funzione per muovere il pulsante in modo casuale
-                function moveButton() {
-                    const maxX = window.innerWidth - playButton.offsetWidth;
-                    const maxY = window.innerHeight - playButton.offsetHeight;
+                const randomX = Math.random() * maxX;
+                const randomY = Math.random() * maxY;
 
-                    const randomX = Math.random() * maxX;
-                    const randomY = Math.random() * maxY;
+                playButton.style.left = randomX + "px";
+                playButton.style.top = randomY + "px";
+            }
 
-                    playButton.style.left = randomX + "px";
-                    playButton.style.top = randomY + "px";
-                }
+            // Muove il pulsante ogni 1 secondo
+            setInterval(moveButton, 1000);
 
-                // Muovi il pulsante ogni 1 secondo
-                setInterval(moveButton, 1000);
-            });
+            // Rimpicciolisce gradualmente il pulsante
+            setInterval(function() {
+                playButton.classList.add("shrink");
+            }, 1000); // Il pulsante si rimpicciolisce dopo 1 secondo
+
         });
     </script>
 </body>
