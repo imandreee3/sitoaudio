@@ -5,49 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Automatico</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: black;
+            overflow: hidden;
+            position: relative;
         }
-        #playButton {
+        #startButton, #stopButton {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            border: none;
+            cursor: pointer;
+        }
+        #stopButton {
+            display: none;
             background-color: red;
             color: white;
-            font-size: 90px;
-            padding: 60px 85px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
+            font-size: 24px;
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
         }
     </style>
 </head>
 <body>
-    <audio id="audio" autoplay loop>
+
+    <audio id="audio" loop>
         <source src="audio.mp3" type="audio/mpeg">
         Il tuo browser non supporta l'elemento audio.
     </audio>
 
-    <button id="playButton">Avvia Audio</button>
+    <button id="startButton"></button>
+    <button id="stopButton">Stop Audio</button>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const audio = document.getElementById("audio");
-            const playButton = document.getElementById("playButton");
+            const startButton = document.getElementById("startButton");
+            const stopButton = document.getElementById("stopButton");
+            let buttonSize = 150; // Dimensione iniziale del pulsante "Stop Audio"
 
-            audio.play().catch(error => {
-                console.log("Riproduzione bloccata, serve un'interazione utente.");
-                playButton.style.display = "block";
+            // Avvia l'audio e mostra il pulsante "Stop Audio"
+            startButton.addEventListener("click", function() {
+                audio.play();
+                startButton.style.display = "none";
+                stopButton.style.display = "block";
             });
 
-            playButton.addEventListener("click", function() {
-                audio.play();
-                playButton.style.display = "none";
+            // Spostamento automatico del pulsante e cambiamento di colore
+            function moveButton() {
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+
+                // Genera posizione casuale
+                const newX = Math.random() * (screenWidth - buttonSize);
+                const newY = Math.random() * (screenHeight - buttonSize);
+
+                // Cambia il colore casualmente
+                const randomColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+                // Riduci la dimensione del pulsante
+                buttonSize = Math.max(30, buttonSize * 0.9); // Non scende sotto i 30px
+
+                // Applica le nuove dimensioni e posizione
+                stopButton.style.width = `${buttonSize}px`;
+                stopButton.style.height = `${buttonSize}px`;
+                stopButton.style.left = `${newX}px`;
+                stopButton.style.top = `${newY}px`;
+                stopButton.style.backgroundColor = randomColor;
+            }
+
+            // Movimento continuo del pulsante
+            setInterval(moveButton, 1000);
+
+            // Quando si clicca "Stop Audio", il pulsante si sposta e si rimpicciolisce
+            stopButton.addEventListener("click", function() {
+                moveButton(); // Esegui lo spostamento e il cambio colore al click
             });
         });
     </script>
+
 </body>
 </html>
-
 
