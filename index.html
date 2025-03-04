@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>:3333</title>
+    <title>Audio Automatico</title>
     <style>
         body {
             display: flex;
@@ -12,7 +12,7 @@
             height: 100vh;
             background-color: black;
             margin: 0;
-            overflow: hidden; /* Impedisce la barra di scorrimento */
+            overflow: hidden;
         }
         
         #playButton {
@@ -24,8 +24,8 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            display: none; /* Inizialmente nascosto */
-            transition: all 2s ease; /* Transizione per il rimpicciolimento */
+            display: block;
+            transition: all 2s ease;
             animation: rainbow 5s linear infinite; /* Animazione arcobaleno */
         }
 
@@ -57,7 +57,7 @@
             }
         }
 
-        /* Quando il pulsante è cliccato, lo rimpiccioliamo */
+        /* Quando il pulsante è cliccato, si rimpicciolisce */
         #playButton.clicked {
             transform: scale(0.5);
             font-size: 15px;
@@ -75,6 +75,12 @@
             const audio = document.getElementById("audio");
             const body = document.body;
 
+            // Crea il pulsante "Stop"
+            const playButton = document.createElement("button");
+            playButton.id = "playButton";
+            playButton.innerText = "Stop"; // Testo del pulsante
+            body.appendChild(playButton);
+
             // Aggiungi l'ascoltatore per il click sull'intero body per iniziare l'audio
             body.addEventListener("click", function() {
                 // Riproduci l'audio quando l'utente fa clic
@@ -82,14 +88,8 @@
                     console.log("Riproduzione bloccata, serve un'interazione utente.");
                 });
 
-                // Crea il pulsante "Stop"
-                const playButton = document.createElement("button");
-                playButton.id = "playButton";
-                playButton.innerText = "Stop"; // Testo del pulsante
-                body.appendChild(playButton);
-
-                // Mostra il pulsante rosso
-                playButton.style.display = "block";
+                // Quando il pulsante viene cliccato, lo rimpiccioliamo e lo spostiamo
+                playButton.classList.add("clicked"); // Aggiungi la classe per il rimpicciolimento
 
                 // Funzione per muovere il pulsante in modo casuale
                 function moveButton() {
@@ -105,17 +105,11 @@
 
                 // Muovi il pulsante ogni 1 secondo
                 setInterval(moveButton, 1000);
-
-                // Aggiungi l'effetto di rimpicciolimento quando viene cliccato
-                playButton.addEventListener("click", function() {
-                    playButton.classList.add("clicked"); // Aggiungi la classe per il rimpicciolimento
-                });
             });
         });
     </script>
 </body>
 </html>
-
 
 
 
